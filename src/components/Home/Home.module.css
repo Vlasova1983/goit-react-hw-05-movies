@@ -1,0 +1,14 @@
+
+.titel{
+    margin-left: 30px;
+}
+.list_movies{
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .link_movies{
+    margin-top:15px;
+    font-weight: 500;
+    color: black;
+  }
