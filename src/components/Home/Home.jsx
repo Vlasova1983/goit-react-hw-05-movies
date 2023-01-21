@@ -4,8 +4,7 @@ import {useState, useEffect} from 'react';
 import Notiflix from 'notiflix';
 import axios from 'axios';
 
-
-export const Home = () => {    
+const Home = () => {    
     const [movies,setIsMovies] = useState([]);
     const location = useLocation();
 
@@ -41,3 +40,4 @@ export const Home = () => {
     )
 };
 
+export default Home;
