@@ -1,12 +1,14 @@
 import styles  from '../MoviesDetails/MoviesDetails.module.css';
 import { Link, useParams,useLocation} from 'react-router-dom';
-import {useEffect,useState} from 'react';
-import {Cast} from '../Cast/Cast';
-import {Reviews} from '../Reviews/Reviews';
-
+import {useEffect,useState,lazy,Suspense} from 'react';
 import axios from 'axios';
+import { Loader } from 'components/Loader/Loader';
 
-export const MoviesDetails = () => {
+
+const Cast = lazy(()=> import('../Cast/Cast'));
+const Reviews = lazy(()=> import('../Reviews/Reviews'));
+
+const MoviesDetails = () => {
     const { movieId } = useParams(); 
     const [move,setIsMove] = useState({});
     const [genres,setIsGenres] = useState([]);
@@ -48,31 +50,32 @@ export const MoviesDetails = () => {
 
     return (       
         <> 
-        <div>
-            <Link to={location.state?.from?? '/movies'} >Go back</Link>            
-            <div className={styles.content}>
-                <img className={styles.image} src={`https://image.tmdb.org/t/p/w500/${move.poster_path}`} alt="" />
-                <div className={styles.info} >
-                    <p>{move.title} ({move.release_date}) </p>                
-                    <p>Overview</p> 
-                    <p> {move.overview}</p>
-                    <p className={styles.genres}>Genres</p>
-                    <ul className={styles.genres}>{genres.map ((item)=>(fetchLink(item)))}</ul>
-                </div>
-            </div>      
+            <div>
+                <Link to={location.state?.from?? '/movies'} >Go back</Link>            
+                <div className={styles.content}>
+                    <img className={styles.image} src={`https://image.tmdb.org/t/p/w500/${move.poster_path}`} alt="" />
+                    <div className={styles.info} >
+                        <p>{move.title} ({move.release_date}) </p>                
+                        <p>Overview</p> 
+                        <p> {move.overview}</p>
+                        <p className={styles.genres}>Genres</p>
+                        <ul className={styles.genres}>{genres.map ((item)=>(fetchLink(item)))}</ul>
+                    </div>
+                </div>      
         
-            <ul className={styles.list_menu}>Additional Information
-                <Link state={{from:location.state?.from}} to={`/movies/${movieId}/cast`} className={styles.link_menu} onClick={()=>onChangeLoadCast()}> Cast</Link>
-                <Link state={{from:location.state?.from}} to={`/movies/${movieId}/reviews`}className={styles.link_menu} onClick={()=>onChangeLoadReviews()}> Reviews</Link>
-            </ul> 
+                <ul className={styles.list_menu}>Additional Information
+                    <Link state={{from:location.state?.from}} to={`/movies/${movieId}/cast`} className={styles.link_menu} onClick={()=>onChangeLoadCast()}> Cast</Link>
+                    <Link state={{from:location.state?.from}} to={`/movies/${movieId}/reviews`}className={styles.link_menu} onClick={()=>onChangeLoadReviews()}> Reviews</Link>
+                </ul> 
 
-        </div>
-            
-            {LoadCast &&<Cast/>}
-            {LoadReviews&& <Reviews/> }
-           
+            </div>
+            <Suspense fallback={<Loader/>}> 
+                {LoadCast &&<Cast/>}
+                {LoadReviews&& <Reviews/> }
+            </Suspense> 
         </>
           
     );
 };
 
+export default MoviesDetails;
