@@ -5,7 +5,7 @@ const getActiveClassName = ({ isActive }) => {
     return isActive ? styles.link_menu_activ : styles.link_menu;
   };
 
-export const Layout = ({children}) => {
+const Layout = ({children}) => {
     return (
         <>  
             <ul className={styles.list_menu}>
@@ -16,3 +16,5 @@ export const Layout = ({children}) => {
         </>        
     ) 
 }
+
+export default Layout;
