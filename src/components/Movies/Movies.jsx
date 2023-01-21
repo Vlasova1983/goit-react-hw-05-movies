@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 
-export const Movies = () => {   
+const Movies = () => {   
     const [value,setIsValue] = useState('');
     const [movies,setIsMovies] = useState([]);  
     const [searchParams, setSearchParams]=useSearchParams();   
@@ -73,4 +73,5 @@ export const Movies = () => {
         
     );   
 }
-    
+ 
+export default Movies;
