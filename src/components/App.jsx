@@ -6,7 +6,7 @@ import { Layout } from './Layout/Layout';
 
 export const App = () => {
  return(
-  <BrowserRouter basename="goit-react-hw-05-movies">
+  <BrowserRouter >
     < Layout >
       <Routes>    
         <Route path="" element={<Home/>} />
