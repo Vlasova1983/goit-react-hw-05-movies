@@ -1,19 +1,16 @@
 import styles  from '../MoviesDetails/MoviesDetails.module.css';
-import { Link, useParams,useLocation} from 'react-router-dom';
-import {useEffect,useState,lazy,Suspense} from 'react';
+import { Link, useParams,useLocation,Outlet} from 'react-router-dom';
+import {useEffect,useState,Suspense} from 'react';
 import axios from 'axios';
 import { Loader } from 'components/Loader/Loader';
 
 
-const Cast = lazy(()=> import('../Cast/Cast'));
-const Reviews = lazy(()=> import('../Reviews/Reviews'));
+
 
 const MoviesDetails = () => {
     const { movieId } = useParams(); 
     const [move,setIsMove] = useState({});
-    const [genres,setIsGenres] = useState([]);
-    const [LoadCast,setIsLoadCast] = useState(false);
-    const [LoadReviews,setIsLoadReviews] = useState(false);     
+    const [genres,setIsGenres] = useState([]);    
     const location = useLocation();
     
 
@@ -37,15 +34,7 @@ const MoviesDetails = () => {
         )         
     };
    
-    const onChangeLoadCast =()=>{
-        setIsLoadCast(true);
-        setIsLoadReviews(false)  
-    }
-
-    const onChangeLoadReviews =()=>{
-        setIsLoadCast(false);
-        setIsLoadReviews(true);  
-    }
+    
 
 
     return (       
@@ -64,15 +53,15 @@ const MoviesDetails = () => {
                 </div>      
         
                 <ul className={styles.list_menu}>Additional Information
-                    <Link state={{from:location.state?.from}} to={`/movies/${movieId}/cast`} className={styles.link_menu} onClick={()=>onChangeLoadCast()}> Cast</Link>
-                    <Link state={{from:location.state?.from}} to={`/movies/${movieId}/reviews`}className={styles.link_menu} onClick={()=>onChangeLoadReviews()}> Reviews</Link>
+                    <Link state={{from:location.state?.from}} to={`cast`} className={styles.link_menu}> Cast</Link>
+                    <Link state={{from:location.state?.from}} to={`reviews`}className={styles.link_menu}> Reviews</Link>
                 </ul> 
 
             </div>
-            <Suspense fallback={<Loader/>}> 
-                {LoadCast &&<Cast/>}
-                {LoadReviews&& <Reviews/> }
-            </Suspense> 
+            
+             <Suspense fallback={<Loader/>}> 
+                <Outlet />
+            </Suspense>  
         </>
           
     );
