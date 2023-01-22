@@ -14,7 +14,7 @@ const Movies = () => {
     const quary = searchParams.get('quary');
 
     useEffect(()=>{
-            const fetchData = async () => {        
+        const fetchData = async () => {        
             try {           
                 const response= await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=dbc34002be87151e0df6d0e75806eaf7&query=${quary}`);
                 const data=response.data.results;                         
