@@ -19,15 +19,15 @@ const MoviesDetails = () => {
 
     useEffect(()=>{        
         const fetchData = async () => {        
-        try {           
-            const response= await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=dbc34002be87151e0df6d0e75806eaf7`);
-            const data = response.data;                         
-            setIsMove(data);
-            setIsGenres(data.genres);                                                                       
-        }
-        catch (error) {} 
-        finally{}               
-    };
+            try {           
+                const response= await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=dbc34002be87151e0df6d0e75806eaf7`);
+                const data = response.data;                         
+                setIsMove(data);
+                setIsGenres(data.genres);                                                                       
+            }
+            catch (error) {} 
+            finally{}               
+        };
         fetchData();        
     },[movieId]) 
     
