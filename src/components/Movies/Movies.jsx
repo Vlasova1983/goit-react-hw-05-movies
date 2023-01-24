@@ -1,9 +1,12 @@
 import styles  from '../Movies/Movies.module.css';
-import {useState,useEffect} from 'react';
+
+import {useState,useEffect,useContext} from 'react';
 import {Link, useSearchParams,useLocation} from 'react-router-dom';
+
 import Notiflix from 'notiflix';
 import axios from 'axios';
 
+import { FeatchContext } from 'context/FetchContext';
 
 
 const Movies = () => {   
@@ -12,23 +15,23 @@ const Movies = () => {
     const [searchParams, setSearchParams]=useSearchParams();   
     const location = useLocation();    
     const quary = searchParams.get('quary');
+    const featchContext = useContext(FeatchContext);   
+    const {url,key} = featchContext;
 
     useEffect(()=>{
         const fetchData = async () => {        
             try {           
-                const response= await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=dbc34002be87151e0df6d0e75806eaf7&query=${quary}`);
+                const response= await axios.get(`${url}/search/movie?${key}&query=${quary}`);
                 const data=response.data.results;                         
                 setIsMovies(data);                      
             }
             catch (error) {
                 Notiflix.Notify.failure('Sorry, your search did not match any results. Try again.');
-            } 
-            finally{
-            }               
+            }                         
         };
 
         if(quary!==null) {fetchData()}
-    },[quary]);  
+    },[quary,url,key]);  
     
 
     const  handleChange = event => {    
