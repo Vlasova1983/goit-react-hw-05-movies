@@ -1,26 +1,35 @@
 import styles  from '../Cast/Cast.module.css';
-import {useState,useEffect} from 'react';
-import axios from 'axios';
+
 import { useParams } from 'react-router-dom';
+import {useState,useEffect,useContext} from 'react';
+
+import axios from 'axios';
+import Notiflix from 'notiflix';
+
+import { FeatchContext } from 'context/FetchContext';
 
 const Cast = () => {
     const [cast,setIsCast] = useState([]);
     const { movieId } = useParams(); 
+    const featchContext = useContext(FeatchContext);   
+    const {url,key} = featchContext;
    
     useEffect(()=>{    
         const fetchData = async () => {    
         try {           
-            const response= await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=dbc34002be87151e0df6d0e75806eaf7`);
+            const response= await axios.get(`${url}/movie/${movieId}/credits?${key}`);
             const data = response.data.cast;                         
             setIsCast(data);                                       
         }
-        catch (error) {} 
-        finally{}               
+        catch (error) {
+            Notiflix.Notify.failure('Oops, something went wrong. Try to refresh the page or return to the previous one.');
+        } 
+                     
     };
 
     fetchData();
 
-},[movieId]) 
+},[movieId,url,key]) 
 
     const fetchLink=(item)=>{ 
         const poster = item.profile_path
