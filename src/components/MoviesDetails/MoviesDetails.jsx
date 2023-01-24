@@ -1,32 +1,36 @@
 import styles  from '../MoviesDetails/MoviesDetails.module.css';
+
 import { Link, useParams,useLocation,Outlet} from 'react-router-dom';
-import {useEffect,useState,Suspense} from 'react';
+import {useEffect,useState,Suspense,useContext} from 'react';
+
 import axios from 'axios';
+import Notiflix from 'notiflix';
+
 import { Loader } from 'components/Loader/Loader';
-
-
-
+import { FeatchContext } from 'context/FetchContext';
 
 const MoviesDetails = () => {
     const { movieId } = useParams(); 
     const [move,setIsMove] = useState({});
     const [genres,setIsGenres] = useState([]);    
     const location = useLocation();
-    
+    const featchContext = useContext(FeatchContext);   
+    const {url,key} = featchContext;
 
     useEffect(()=>{        
         const fetchData = async () => {        
             try {           
-                const response= await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=dbc34002be87151e0df6d0e75806eaf7`);
+                const response= await axios.get(`${url}/movie/${movieId}?${key}`);
                 const data = response.data;                         
                 setIsMove(data);
                 setIsGenres(data.genres);                                                                       
             }
-            catch (error) {} 
-            finally{}               
+            catch (error) {
+                Notiflix.Notify.failure('Oops, something went wrong. Try to refresh the page or return to the previous one.');
+            }                         
         };
         fetchData();        
-    },[movieId]) 
+    },[movieId,url,key]) 
     
     const fetchLink=(item)=>{        
         return(
