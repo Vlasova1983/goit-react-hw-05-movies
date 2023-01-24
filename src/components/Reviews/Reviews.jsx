@@ -1,26 +1,32 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useState,useContext} from 'react';
 import { useParams } from 'react-router-dom';
+
 import axios from 'axios';
+import Notiflix from 'notiflix';
+
+import { FeatchContext } from 'context/FetchContext';
 
 const Reviews = () => {
     const [Reviews,setIsReviews] = useState([]);
     const { movieId } = useParams(); 
+    const featchContext = useContext(FeatchContext);   
+    const {url,key} = featchContext;
 
     useEffect(()=>{    
         const fetchData = async () => {    
             try {           
-                const response= await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=dbc34002be87151e0df6d0e75806eaf7`);
+                const response= await axios.get(`${url}/movie/${movieId}/reviews?${key}`);
                 const data = response.data.results;                         
-                setIsReviews(data);            
-                                             
+                setIsReviews(data);                                             
             }
-            catch (error) {} 
-            finally{}               
+            catch (error) {
+                Notiflix.Notify.failure('Oops, something went wrong. Try to refresh the page or return to the previous one.');
+            }                          
         };
 
         fetchData();
 
-    },[movieId])
+    },[movieId,url,key])
 
     const  createMessage = ()=>{
         return(           
@@ -47,3 +53,4 @@ const Reviews = () => {
 };
 
 export default Reviews;
+
