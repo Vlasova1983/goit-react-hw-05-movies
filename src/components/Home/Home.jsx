@@ -13,8 +13,7 @@ const Home = () => {
     const [movies,setIsMovies] = useState([]);
     const location = useLocation();
     const featchContext = useContext(FeatchContext);   
-    const {url,key} = featchContext;
-    
+    const {url,key} = featchContext; 
 
     useEffect(()=>{
         const fetchData = async () => {        
