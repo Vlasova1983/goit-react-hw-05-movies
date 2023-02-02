@@ -10,8 +10,7 @@ const Reviews = () => {
     const [Reviews,setIsReviews] = useState([]);
     const { movieId } = useParams(); 
     const featchContext = useContext(FeatchContext);   
-    const {url,key} = featchContext;
-
+    const {url,key} = featchContext;   
     useEffect(()=>{    
         const fetchData = async () => {    
             try {           
