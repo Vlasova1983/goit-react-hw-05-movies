@@ -17,7 +17,6 @@ const Movies = () => {
     const quary = searchParams.get('quary');
     const featchContext = useContext(FeatchContext);   
     const {url,key} = featchContext;
-
     useEffect(()=>{
         const fetchData = async () => {        
             try {           
