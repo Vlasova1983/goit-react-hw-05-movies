@@ -16,7 +16,7 @@ const MoviesDetails = () => {
     const location = useLocation();
     const featchContext = useContext(FeatchContext);   
     const {url,key} = featchContext;
-
+    
     useEffect(()=>{        
         const fetchData = async () => {        
             try {           
